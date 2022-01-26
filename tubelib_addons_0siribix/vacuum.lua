@@ -48,10 +48,10 @@ local function scan_for_objects(pos, dist)
 	if minetest.get_objects_in_area then
 		objs = minetest.get_objects_in_area(pos1, pos2)
 	else
-		if tubelib_tweaks[r] == nil then
-			tubelib_tweaks[r] = vector.distance(pos, pos1)
+		if tubelib_addons_0siribix[r] == nil then
+			tubelib_addons_0siribix[r] = vector.distance(pos, pos1)
 		end
-		for _, obj in pairs(minetest.get_objects_inside_radius({["x"] = pos.x, ["y"] = pos2.y - r, ["z"] = pos.z}, tubelib_tweaks[r])) do
+		for _, obj in pairs(minetest.get_objects_inside_radius({["x"] = pos.x, ["y"] = pos2.y - r, ["z"] = pos.z}, tubelib_addons_0siribix[r])) do
 			local p = obj:getpos()
 			if p.x > pos1.x and p.x < pos2.x and
 					p.y > pos1.y and p.y < pos2.y and
@@ -75,7 +75,7 @@ local function scan_for_objects(pos, dist)
 	return true
 end
 
-minetest.register_node("tubelib_tweaks:vacuum", {
+minetest.register_node("tubelib_addons_0siribix:vacuum", {
 	description = S("Tubelib Vacuum"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -107,7 +107,7 @@ minetest.register_node("tubelib_tweaks:vacuum", {
 	end,
 
 	after_place_node = function(pos, placer)
-		tubelib.add_node(pos, "tubelib_tweaks:vacuum")
+		tubelib.add_node(pos, "tubelib_addons_0siribix:vacuum")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec())
 		minetest.get_node_timer(pos):start(interval)
@@ -155,7 +155,7 @@ minetest.register_node("tubelib_tweaks:vacuum", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("tubelib_tweaks:vacuum2", {
+minetest.register_node("tubelib_addons_0siribix:vacuum2", {
 	description = S("HighPerf Vacuum"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -187,7 +187,7 @@ minetest.register_node("tubelib_tweaks:vacuum2", {
 	end,
 
 	after_place_node = function(pos, placer)
-		tubelib.add_node(pos, "tubelib_tweaks:vacuum2")
+		tubelib.add_node(pos, "tubelib_addons_0siribix:vacuum2")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec())
 		minetest.get_node_timer(pos):start(interval)
@@ -237,16 +237,16 @@ minetest.register_node("tubelib_tweaks:vacuum2", {
 
 
 minetest.register_craft({
-	output = "tubelib_tweaks:vacuum2",
+	output = "tubelib_addons_0siribix:vacuum2",
 	recipe = {
-		{"default:tin_ingot", "tubelib_tweaks:vacuum", ""},
-		{"tubelib_tweaks:vacuum", "default:gold_ingot", ""},
+		{"default:tin_ingot", "tubelib_addons_0siribix:vacuum", ""},
+		{"tubelib_addons_0siribix:vacuum", "default:gold_ingot", ""},
 		{"", "", ""},
 	},
 })
 
 minetest.register_craft({
-	output = "tubelib_tweaks:vacuum 2",
+	output = "tubelib_addons_0siribix:vacuum 2",
 	recipe = {
 		{"group:wood", "default:steel_ingot", "group:wood"},
 		{"", "default:mese_crystal",	""},
@@ -255,7 +255,7 @@ minetest.register_craft({
 })
 
 
-tubelib.register_node("tubelib_tweaks:vacuum", {"tubelib_tweaks:vacuum2"}, {
+tubelib.register_node("tubelib_addons_0siribix:vacuum", {"tubelib_addons_0siribix:vacuum2"}, {
 	invalid_sides = {"D"},
 	on_pull_stack = function(pos, side)
 		local meta = minetest.get_meta(pos)
