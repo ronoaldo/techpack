@@ -1,7 +1,7 @@
 # TechPack_0siribix V2.06
 
-TechPack, a Mining, Crafting, &amp; Farming Modpack for Minetest.
-Created by joe7575 with extensions by 0siribix to be compatible with Drawers_0siribix,
+TechPack, a Mining, Crafting, &amp; Farming Modpack for Minetest.</br>
+Created by joe7575 with extensions by 0siribix to be compatible with Drawers_0siribix,</br>
   add refill ability, and pulling stacks from anything that doesn't have a HighPerf variant.
 
 ![TechPack](https://github.com/0siribix/techpack_0siribix/blob/master/screenshot.png)
@@ -23,7 +23,7 @@ TechPack is a collection of following Mods:
 * SaferLua Controller - a controller to be programmed in LUA
 * lcdlib - a display lib used by smartline
 
-**A TechPack Tutorial is available as ![Wiki](https://github.com/joe7575/techpack/wiki)**
+**A TechPack Tutorial is available as ![Wiki](https://github.com/0siribix/techpack_0siribix/wiki)**
 
 **Machine data is stored in memory and not in the nodes itself. Therefore, never move or copy machines or tubes by means of Worldedit.**
 **The moved/copied nodes will not have valid node numbers, which could lead to a server crash.**
@@ -72,11 +72,11 @@ TechPack provides:
 
 TechPack supports the following mods:
 
-- Farming Redo (Harvester, Fermenter)
-- Ethereal (Harvester, Quarry, Fermenter)
-- Pipeworks (Gravel Sieve)
-- Hopper (Gravel Sieve)
-- Mesecon (Mesecon Converter)
+- Farming Redo (Harvester, Fermenter)</br>
+- Ethereal (Harvester, Quarry, Fermenter)</br>
+- Pipeworks (Gravel Sieve)</br>
+- Hopper (Gravel Sieve)</br>
+- Mesecon (Mesecon Converter)</br>
 - Drawers_0siribix
 
 
@@ -106,17 +106,17 @@ tubelib_machine_aging_value = 999999
 
 #### Maximum number of Forceload Blocks per player
 
-Default value is 12.
-I higher number allows to build larger farms and machines which keep loaded, but increases the server load, too.
-But the areas are only loaded when the player is online.
-To be able to use e.g. 12 forceloaded blocks per player, the pararamter 'max_forceloaded_blocks' in 'minetest.conf' has to be ajusted.
+Default value is 12.</br>
+I higher number allows to build larger farms and machines which keep loaded, but increases the server load, too.</br>
+But the areas are only loaded when the player is online.</br>
+To be able to use e.g. 12 forceloaded blocks per player, the pararamter 'max_forceloaded_blocks' in 'minetest.conf' has to be ajusted.</br>
 
 
 #### Enable Basalt Stone (and disable ore generation via Cobblestone generator)
 
-The lava/water Cobblestone generator allows to produce infinite Cobblestone. By means of Quarry,
-Grinder, and Gravel Sieve it allows to infinite generate ores.
-This can be disabled by means of the setting parameter. If enabled, the Cobblestone
+The lava/water Cobblestone generator allows to produce infinite Cobblestone. By means of Quarry,</br>
+Grinder, and Gravel Sieve it allows to infinite generate ores.</br>
+This can be disabled by means of the setting parameter. If enabled, the Cobblestone</br>
 generator generates Basalt instead, which only can be used for building purposes.
 
 
@@ -126,8 +126,8 @@ Machines will defect when the owner has not been online for 7 days (configurable
 
 ### License
 
-Copyright (C) 2017-2021 Joachim Stolberg
-Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt
+Copyright (C) 2017-2021 Joachim Stolberg</br>
+Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt</br>
 Textures: CC BY-SA 3.0
 
 
