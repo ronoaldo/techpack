@@ -25,7 +25,8 @@ TechPack is a collection of following Mods:
 
 **A TechPack Tutorial is available as ![Wiki](https://github.com/0siribix/techpack_0siribix/wiki)**
 
-**Machine data is stored in memory and not in the nodes itself. Therefore, never move or copy machines or tubes by means of Worldedit.**
+**Machine data is stored in memory and not in the nodes itself.**</br>
+**Therefore, never move or copy machines or tubes by means of Worldedit.**</br>
 **The moved/copied nodes will not have valid node numbers, which could lead to a server crash.**
 
 TechPack provides:
@@ -107,7 +108,7 @@ tubelib_machine_aging_value = 999999
 #### Maximum number of Forceload Blocks per player
 
 Default value is 12.</br>
-I higher number allows to build larger farms and machines which keep loaded, but increases the server load, too.</br>
+A higher number allows to build larger farms and machines which keep loaded, but increases the server load, too.</br>
 But the areas are only loaded when the player is online.</br>
 To be able to use e.g. 12 forceloaded blocks per player, the pararamter 'max_forceloaded_blocks' in 'minetest.conf' has to be ajusted.</br>
 
@@ -149,12 +150,12 @@ Textures: CC BY-SA 3.0
 
 ### Dependencies
 
-default, doors, intllib, basic_materials
-tubelib2 (![GitHub](https://github.com/joe7575/tubelib2))
-Tubelib Color Lamps optional: unifieddyes
-SmartLine Controller optional: mail
-Gravelsieve optional: moreores, hopper, pipeworks
-tubelib_addons1 optional: unified_inventory
+default, doors, intllib, basic_materials</br>
+tubelib2 (![GitHub](https://github.com/joe7575/tubelib2))</br>
+Tubelib Color Lamps optional: unifieddyes</br>
+SmartLine Controller optional: mail</br>
+Gravelsieve optional: moreores, hopper, pipeworks</br>
+tubelib_addons1 optional: unified_inventory</br>
 tubelib_addons3 optional: minecart
 
 
