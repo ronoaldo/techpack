@@ -18,7 +18,7 @@
 	2017-10-29  v0.07  Pusher bugfix, commands start/stop replaced by on/off
 	2017-11-02  v0.08  Data base changed, aging of node positions added
 	2017-11-04  v0.09  functions set_data/get_data added
-	2018-01-27  v0.10  WLAN Chip added, recipes reviced, Pusher state 'blocked' added, 
+	2018-01-27  v0.10  WLAN Chip added, recipes reviced, Pusher state 'blocked' added,
                        function send_request changed
 	2018-08-09  v1.00  Extracted from TechPack to be used as standalone mod
 	                   - new tubing algorithm
@@ -26,7 +26,7 @@
 	                   - item counter for pusher/distributor added
 	2018-12-21  v2.00  Switch to tubelib2, "defect" nodes and "Repair Kit" added,
                        Forceload block added, Basalt as Cobble Stone alternative added
-	
+
 ]]--
 
 
@@ -43,6 +43,7 @@ tubelib.version = 2.00
 tubelib.max_num_forceload_blocks = tonumber(minetest.setting_get("tubelib_max_num_forceload_blocks")) or 10
 tubelib.basalt_stone_enabled = minetest.setting_get("tubelib_basalt_stone_enabled") == "true"
 tubelib.machine_aging_value = tonumber(minetest.setting_get("tubelib_machine_aging_value")) or 100
+tubelib.refill = true
 
 
 --------------------------- conversion to v0.04

@@ -9,9 +9,9 @@
 	See LICENSE.txt for more information
 
 	legacy_nodes.lua:
-	
+
 	Tubelib support for chests and furnace
-	
+
 ]]--
 
 local function is_source(pos,meta,  item)
@@ -27,22 +27,34 @@ local function is_source(pos,meta,  item)
 end
 
 tubelib.register_node("default:chest", {"default:chest_open"}, {
+	on_pull_stack = function(pos, side)
+		local meta = minetest.get_meta(pos)
+		return tubelib.get_stack(meta, "main")
+	end,
 	on_pull_item = function(pos, side)
 		local meta = minetest.get_meta(pos)
 		return tubelib.get_item(meta, "main")
 	end,
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		return tubelib.put_item(meta, "main", item)
 	end,
-})	
+})
 
 
 tubelib.register_node("default:chest_locked", {"default:chest_locked_open"}, {
+	on_pull_stack = function(pos, side, player_name)
+		local meta = minetest.get_meta(pos)
+		local owner = meta:get_string("owner")
+		if player_name == owner or player_name == "" then
+			return tubelib.get_stack(meta, "main")
+		end
+		return nil
+	end,
 	on_pull_item = function(pos, side, player_name)
 		local meta = minetest.get_meta(pos)
 		local owner = meta:get_string("owner")
@@ -55,7 +67,7 @@ tubelib.register_node("default:chest_locked", {"default:chest_locked_open"}, {
 		local meta = minetest.get_meta(pos)
 		local owner = meta:get_string("owner")
 		if player_name == owner or player_name == "" then
-			return tubelib.put_item(meta, "main", item)
+			return tubelib.put_item(meta, "main", item, tubelib.refill)
 		end
 		return false
 	end,
@@ -67,9 +79,13 @@ tubelib.register_node("default:chest_locked", {"default:chest_locked_open"}, {
 		end
 		return nil
 	end,
-})	
+})
 
 tubelib.register_node("default:furnace", {"default:furnace_active"}, {
+	on_pull_stack = function(pos, side)
+		local meta = minetest.get_meta(pos)
+		return tubelib.get_stack(meta, "dst")
+	end,
 	on_pull_item = function(pos, side)
 		local meta = minetest.get_meta(pos)
 		return tubelib.get_item(meta, "dst")
@@ -78,20 +94,28 @@ tubelib.register_node("default:furnace", {"default:furnace_active"}, {
 		local meta = minetest.get_meta(pos)
 		minetest.get_node_timer(pos):start(1.0)
 		if is_source(pos, meta, item) then
-			return tubelib.put_item(meta, "src", item)
+			return tubelib.put_item(meta, "src", item, tubelib.refill)
 		elseif minetest.get_craft_result({method="fuel", width=1, items={item}}).time ~= 0 then
-			return tubelib.put_item(meta, "fuel", item)
+			return tubelib.put_item(meta, "fuel", item, tubelib.refill)
 		else
-			return tubelib.put_item(meta, "src", item)
+			return tubelib.put_item(meta, "src", item, tubelib.refill)
 		end
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		return tubelib.put_item(meta, "dst", item)
 	end,
-})	
+})
 
 tubelib.register_node("shop:shop", {}, {
+	on_pull_stack = function(pos, side, player_name)
+		local meta = minetest.get_meta(pos)
+		local owner = meta:get_string("owner")
+		if player_name == owner or player_name == "" then
+			return tubelib.get_stack(meta, "register")
+		end
+		return nil
+	end,
 	on_pull_item = function(pos, side, player_name)
 		local meta = minetest.get_meta(pos)
 		local owner = meta:get_string("owner")
@@ -104,7 +128,7 @@ tubelib.register_node("shop:shop", {}, {
 		local meta = minetest.get_meta(pos)
 		local owner = meta:get_string("owner")
 		if player_name == owner or player_name == "" then
-			return tubelib.put_item(meta, "stock", item)
+			return tubelib.put_item(meta, "stock", item, tubelib.refill)
 		end
 		return false
 	end,
@@ -116,34 +140,42 @@ tubelib.register_node("shop:shop", {}, {
 		end
 		return nil
 	end,
-})	
+})
 
 tubelib.register_node("signs_bot:box", {}, {
+	on_pull_stack = function(pos, side)
+		local meta = minetest.get_meta(pos)
+		return tubelib.get_stack(meta, "main")
+	end,
 	on_pull_item = function(pos, side)
 		local meta = minetest.get_meta(pos)
 		return tubelib.get_item(meta, "main")
 	end,
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		return tubelib.put_item(meta, "main", item)
 	end,
-})	
+})
 
 tubelib.register_node("signs_bot:chest", {}, {
+	on_pull_stack = function(pos, side)
+		local meta = minetest.get_meta(pos)
+		return tubelib.get_stack(meta, "main")
+	end,
 	on_pull_item = function(pos, side)
 		local meta = minetest.get_meta(pos)
 		return tubelib.get_item(meta, "main")
 	end,
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		return tubelib.put_item(meta, "main", item)
 	end,
-})	
+})

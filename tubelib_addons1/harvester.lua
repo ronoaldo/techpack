@@ -465,7 +465,7 @@ tubelib.register_node("tubelib_addons1:harvester_base", {"tubelib_addons1:harves
 		if not tubelib.is_fuel(item) then
 			return false
 		end
-		return tubelib.put_item(M(pos), "fuel", item)
+		return tubelib.put_item(M(pos), "fuel", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		return tubelib.put_item(M(pos), "main", item)

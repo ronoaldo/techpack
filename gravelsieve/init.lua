@@ -504,6 +504,7 @@ for idx = 0,4 do
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", "Gravel Sieve")
+--			meta:set_string("owner", placer:get_player_name())
 
 			-- Pipeworks support
 			pipeworks_after_place(pos, placer)
@@ -647,6 +648,10 @@ if minetest.global_exists("tubelib") then
 			"gravelsieve:sieve_defect",
 		},
 		{
+		on_pull_stack = function(pos, side)
+			local meta = minetest.get_stack(pos)
+			return tubelib.get_item(meta, "dst")
+		end,
 		on_pull_item = function(pos, side)
 			local meta = minetest.get_meta(pos)
 			return tubelib.get_item(meta, "dst")
@@ -654,7 +659,7 @@ if minetest.global_exists("tubelib") then
 		on_push_item = function(pos, side, item)
 			minetest.get_node_timer(pos):start(STEP_DELAY)
 			local meta = minetest.get_meta(pos)
-			return tubelib.put_item(meta, "src", item)
+			return tubelib.put_item(meta, "src", item, tubelib.refill)
 		end,
 		on_unpull_item = function(pos, side, item)
 			local meta = minetest.get_meta(pos)

@@ -9,9 +9,9 @@
 	See LICENSE.txt for more information
 
 	grinder.lua
-	
+
 	Grinding Cobble to Gravel
-	
+
 ]]--
 
 -- Load support for I18n
@@ -153,8 +153,8 @@ minetest.register_node("tubelib_addons1:grinder", {
 		State:on_dig_node(pos, node, player)
 		tubelib.remove_node(pos)
 	end,
-	
-	
+
+
 	on_rotate = screwdriver.disallow,
 	on_timer = keep_running,
 	on_receive_fields = on_receive_fields,
@@ -185,7 +185,7 @@ minetest.register_node("tubelib_addons1:grinder_active", {
 				length = 1.0,
 			},
 		},
-		
+
 		'tubelib_front.png',
 		"tubelib_front.png",
 		"tubelib_front.png",
@@ -244,7 +244,7 @@ minetest.register_node("tubelib_addons1:grinder_defect", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		tubelib.remove_node(pos)
 	end,
-	
+
 	on_rotate = screwdriver.disallow,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_move = allow_metadata_inventory_move,
@@ -268,7 +268,7 @@ minetest.register_craft({
 })
 
 
-tubelib.register_node("tubelib_addons1:grinder", 
+tubelib.register_node("tubelib_addons1:grinder",
 	{"tubelib_addons1:grinder_active", "tubelib_addons1:grinder_defect"}, {
 	on_pull_stack = function(pos, side)
 		return tubelib.get_stack(M(pos), "dst")
@@ -277,7 +277,7 @@ tubelib.register_node("tubelib_addons1:grinder",
 		return tubelib.get_item(M(pos), "dst")
 	end,
 	on_push_item = function(pos, side, item)
-		return tubelib.put_item(M(pos), "src", item)
+		return tubelib.put_item(M(pos), "src", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		return tubelib.put_item(M(pos), "dst", item)
@@ -296,7 +296,7 @@ tubelib.register_node("tubelib_addons1:grinder",
 	on_node_repair = function(pos)
 		return State:on_node_repair(pos)
 	end,
-})	
+})
 
 
 if minetest.global_exists("unified_inventory") then

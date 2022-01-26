@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	chest.lua
 
 ]]--
@@ -25,7 +25,7 @@ local function store_action(pos, player, action, stack)
 	local number = meta:get_string("number")
 	local item = stack:get_name().." "..stack:get_count()
 	PlayerActions[number] = {name, action, item}
-end	
+end
 
 local function send_off_command(pos)
 	local meta = minetest.get_meta(pos)
@@ -93,7 +93,7 @@ minetest.register_node("tubelib_addons1:chest", {
 		local inv = meta:get_inventory()
 		inv:set_size('main', 32)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = tubelib.add_node(pos, "tubelib_addons1:chest")
@@ -114,7 +114,7 @@ minetest.register_node("tubelib_addons1:chest", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		tubelib.remove_node(pos)
 	end,
-	
+
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 
@@ -140,13 +140,13 @@ tubelib.register_node("tubelib_addons1:chest", {}, {
 	end,
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		return tubelib.put_item(meta, "main", item)
 	end,
-	
+
 	on_recv_message = function(pos, topic, payload)
 		if topic == "state" then
 			local meta = minetest.get_meta(pos)
@@ -167,4 +167,4 @@ tubelib.register_node("tubelib_addons1:chest", {}, {
 			return "unsupported"
 		end
 	end,
-})	
+})

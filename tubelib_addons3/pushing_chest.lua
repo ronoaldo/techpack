@@ -357,15 +357,15 @@ tubelib.register_node("tubelib_addons3:pushing_chest",
 				return true
 			else
 				set_state(meta, "full")
-				return tubelib.put_item(meta, "shift", item)
+				return tubelib.put_item(meta, "shift", item, tubelib.refill)
 			end
 		else
-			return tubelib.put_item(meta, "shift", item)
+			return tubelib.put_item(meta, "shift", item, tubelib.refill)
 		end
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib)
 	end,
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(2)

@@ -449,6 +449,9 @@ minetest.register_craft({
 tubelib.register_node("tubelib_addons1:quarry",
 	{"tubelib_addons1:quarry_active", "tubelib_addons1:quarry_defect"}, {
 	invalid_sides = {"L"},
+	on_pull_stack = function(pos, side)
+		return tubelib.get_stack(M(pos), "main")
+	end,
 	on_pull_item = function(pos, side)
 		return tubelib.get_item(M(pos), "main")
 	end,
@@ -456,7 +459,7 @@ tubelib.register_node("tubelib_addons1:quarry",
 		if not tubelib.is_fuel(item) then
 			return false
 		end
-		return tubelib.put_item(M(pos), "fuel", item)
+		return tubelib.put_item(M(pos), "fuel", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		return tubelib.put_item(M(pos), "main", item)

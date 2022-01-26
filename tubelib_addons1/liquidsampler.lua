@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	liquidsampler.lua
-	
+
 ]]--
 
 -- Load support for I18n
@@ -59,12 +59,12 @@ local function get_pos(pos, facedir, side)
 	facedir = (facedir + offs[side]) % 4
 	local dir = minetest.facedir_to_dir(facedir)
 	return vector.add(dst_pos, dir)
-end	
+end
 
 
 local function test_liquid(node)
 	local liquiddef = bucket.liquids[node.name]
-	if liquiddef ~= nil	and liquiddef.itemname ~= nil and 
+	if liquiddef ~= nil	and liquiddef.itemname ~= nil and
 			node.name == liquiddef.source then
 		return liquiddef.itemname
 	end
@@ -165,7 +165,7 @@ minetest.register_node("tubelib_addons1:liquidsampler", {
 		State:on_dig_node(pos, node, player)
 		tubelib.remove_node(pos)
 	end,
-	
+
 	on_rotate = screwdriver.disallow,
 	on_timer = keep_running,
 	on_receive_fields = on_receive_fields,
@@ -279,14 +279,17 @@ minetest.register_craft({
 	},
 })
 
-tubelib.register_node("tubelib_addons1:liquidsampler", 
+tubelib.register_node("tubelib_addons1:liquidsampler",
 	{"tubelib_addons1:liquidsampler_active", "tubelib_addons1:liquidsampler_defect"}, {
 	invalid_sides = {"L"},
+	on_pull_stack = function(pos, side)
+		return tubelib.get_stack(M(pos), "dst")
+	end,
 	on_pull_item = function(pos, side)
 		return tubelib.get_item(M(pos), "dst")
 	end,
 	on_push_item = function(pos, side, item)
-		return tubelib.put_item(M(pos), "src", item)
+		return tubelib.put_item(M(pos), "src", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		return tubelib.put_item(M(pos), "dst", item)
@@ -305,4 +308,4 @@ tubelib.register_node("tubelib_addons1:liquidsampler",
 	on_node_repair = function(pos)
 		return State:on_node_repair(pos)
 	end,
-})	
+})

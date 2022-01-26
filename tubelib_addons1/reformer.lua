@@ -347,11 +347,14 @@ function tubelib.is_fuel(stack)
 end
 
 tubelib.register_node("tubelib_addons1:reformer", {"tubelib_addons1:reformer_defect"}, {
+	on_pull_stack = function(pos, side)
+		return tubelib.get_stack(M(pos), "dst")
+	end,
 	on_pull_item = function(pos, side)
 		return tubelib.get_item(M(pos), "dst")
 	end,
 	on_push_item = function(pos, side, item)
-		return tubelib.put_item(M(pos), "src", item)
+		return tubelib.put_item(M(pos), "src", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		return tubelib.put_item(M(pos), "dst", item)
