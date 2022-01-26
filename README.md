@@ -1,8 +1,10 @@
-# TechPack V2.06
+# TechPack_0siribix V2.06
 
 TechPack, a Mining, Crafting, &amp; Farming Modpack for Minetest.
+Created by joe7575 with extensions by 0siribix to be compatible with Drawers_0siribix,
+  add refill ability, and pulling stacks from anything that doesn't have a HighPerf variant.
 
-![TechPack](https://github.com/joe7575/techpack/blob/master/screenshot.png)
+![TechPack](https://github.com/0siribix/techpack_0siribix/blob/master/screenshot.png)
 
 **After update to v2, don't forget to activate the new mods "techpack_stairway" and "techpack_warehouse" as part of the mod pack.**
 
@@ -49,11 +51,11 @@ TechPack provides:
 - a Repeater node to distribute received commands to connected nodes
 - a Logic Not node to invert on/off commands
 - Gate/Door nodes in different textures to be controlled via on/off commands
-- an Access Lock node with number key field 
+- an Access Lock node with number key field
 - a Mesecon Converter node to translate tubelib commands in mesecon commands and vice versa
 - a Programmer tool to simply collect node numbers
 - a Player Detector node
-- a Controller node with "IF this then that" rules, which allows: 
+- a Controller node with "IF this then that" rules, which allows:
   - reading node states
   - receiving commands from other nodes
   - sending commands and alarms
@@ -75,6 +77,7 @@ TechPack supports the following mods:
 - Pipeworks (Gravel Sieve)
 - Hopper (Gravel Sieve)
 - Mesecon (Mesecon Converter)
+- Drawers_0siribix
 
 
 ### Configuration
@@ -106,29 +109,26 @@ tubelib_machine_aging_value = 999999
 Default value is 12.
 I higher number allows to build larger farms and machines which keep loaded, but increases the server load, too.
 But the areas are only loaded when the player is online.
-To be able to use e.g. 12 forceloaded blocks per player, the pararamter 'max_forceloaded_blocks' in 'minetest.conf' has to be ajusted. 
+To be able to use e.g. 12 forceloaded blocks per player, the pararamter 'max_forceloaded_blocks' in 'minetest.conf' has to be ajusted.
 
 
 #### Enable Basalt Stone (and disable ore generation via Cobblestone generator)
 
 The lava/water Cobblestone generator allows to produce infinite Cobblestone. By means of Quarry,
-Grinder, and Gravel Sieve it allows to infinite generate ores.  
-This can be disabled by means of the setting parameter. If enabled, the Cobblestone 
+Grinder, and Gravel Sieve it allows to infinite generate ores.
+This can be disabled by means of the setting parameter. If enabled, the Cobblestone
 generator generates Basalt instead, which only can be used for building purposes.
 
 
-#### Machine aging value to calculate the lifetime of machines
+#### Disable machines of absent players
 
-Default value is 200.
-This aging value is used to calculate the lifetime of machines before they go defect.
-The value 200 (default) results in a lifetime for standard machines of about 2000 - 8000 item processing cycles (~2-4 hours).
-
+Machines will defect when the owner has not been online for 7 days (configurable)
 
 ### License
 
 Copyright (C) 2017-2021 Joachim Stolberg
-Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
-Textures: CC BY-SA 3.0  
+Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt
+Textures: CC BY-SA 3.0
 
 
 ## Credits
@@ -147,18 +147,18 @@ Textures: CC BY-SA 3.0
 - SciFurz (via forum)
 
 
-### Dependencies 
+### Dependencies
 
 default, doors, intllib, basic_materials
-tubelib2 (![GitHub](https://github.com/joe7575/tubelib2))  
-Tubelib Color Lamps optional: unifieddyes  
-SmartLine Controller optional: mail  
-Gravelsieve optional: moreores, hopper, pipeworks  
+tubelib2 (![GitHub](https://github.com/joe7575/tubelib2))
+Tubelib Color Lamps optional: unifieddyes
+SmartLine Controller optional: mail
+Gravelsieve optional: moreores, hopper, pipeworks
 tubelib_addons1 optional: unified_inventory
-tubelib_addons13 optional: minecart
+tubelib_addons3 optional: minecart
 
 
-### History 
+### History
 
 - 2018-03-18  V1.00  * Tubelib, tubelib_addons1, tubelib_addons2, smartline, and gravelsieve combined to one modpack.
 - 2018-03-24  V1.01  * Support for Ethereal added
@@ -206,4 +206,4 @@ tubelib_addons13 optional: minecart
 - the new mods 'techpack_stairway' and 'techpack_warehouse' have to be enabled
 - TechPack depends now on the mod 'basic_materials' and 'tubelib2' (![GitHub](https://github.com/joe7575/tubelib2))
 
-See ![releasenotes.txt](https://github.com/joe7575/techpack/blob/master/releasenotes.md) for further information
+See ![releasenotes.txt](https://github.com/0siribix/techpack_0siribix/blob/master/releasenotes.md) for further information

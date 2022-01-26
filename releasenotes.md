@@ -1,5 +1,10 @@
 # Release Notes for ModPack TechPack [techpack]
 
+## Extensions by 0siribix (2022-01-25)
+- Add vacuum and HP vacuum
+- Add support for drawers_0siribix
+- Add refill code (pushing nodes will now push a partial stack to refill if there is room)
+- Added ability to pull stacks from all nodes which don't have a HighPerf variant
 
 ## V2.06.00 (2021-06-06)
 
@@ -208,13 +213,13 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 ### Removals
 
 ### Changes
-- HighPerf Pusher support for autocrafter, grinder, and harvester 
+- HighPerf Pusher support for autocrafter, grinder, and harvester
   added (issue #22, #23)
 - Both distributor behaviours changed (issue #26)
 
 ### Fixes
 - Black Hole "items disappeared" counter bugfix (issue #24)
-- HighPerf distributor behaviour without an active filtered channel 
+- HighPerf distributor behaviour without an active filtered channel
   changed (issue #25)
 
 
@@ -338,8 +343,8 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 ### Removals
 
 ### Changes
-- Output reduction on Harvester (cycle time from 4 to 6 s), 
-  Fermenter (from 2 to 3 input items needed per bio gas), 
+- Output reduction on Harvester (cycle time from 4 to 6 s),
+  Fermenter (from 2 to 3 input items needed per bio gas),
   and Gravel Sieve (rarity from 1 to 1.5)
 
 ### Fixes
@@ -481,7 +486,7 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 
 ### Changes
 - TechPack now uses the external library 'tubelib2' (![GitHub](https://github.com/joe7575/tubelib2)), all tubes will be converted to be tubelib2 compatible
-- TechPack depends now on the mod 'basic_materials' 
+- TechPack depends now on the mod 'basic_materials'
 - The Quarry now uses LVM techniques to go down up to 100 meter
 - Almost all machines have an 'on_node_load' function to repair timer routines after a server crash
 - 3 settings parameter:
@@ -588,7 +593,7 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 - Chests support the "set_number" Programmer command to program a node number.
 
 ### Changes
-- Chests now return the state "empty", loader" **and** "full".  
+- Chests now return the state "empty", loader" **and** "full".
   "full" is returned, when no empty stack is available.
 
 ### Fixes
@@ -623,7 +628,7 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 - Sieved Gravel to Grinder recipes added
 
 ### Fixes
-- Parameter 'side' bugfix (used e.g. for on_push_item(...)) 
+- Parameter 'side' bugfix (used e.g. for on_push_item(...))
 
 
 
@@ -654,8 +659,8 @@ Set Idle state instead of fault when there is no liquid (issue #44)
 ### Additions
 - A Liquid Sampler node is added. It is able to take all kind or renewable liquids (registered via bucket.register_liquid)
   Currently only useful for recipes where a water-bucket is needed.
-- Smartline has a new IF-THIS-THEN-THAT Controller V2 which should be much simpler to use. 
-  It will replace the current one (V1).  
+- Smartline has a new IF-THIS-THEN-THAT Controller V2 which should be much simpler to use.
+  It will replace the current one (V1).
   Currently both are active, but if you dig a controller V1 it will be converted to a controller V2.
 - The new controller needs batteries. Thus, Smartline has now its own battery node. The sl_controller.battery will not be
   needed any more.
