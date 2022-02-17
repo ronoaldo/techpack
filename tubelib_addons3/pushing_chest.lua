@@ -98,7 +98,7 @@ local function configured(pos, item)
 	return Cache[number][item:get_name()] == true
 end
 
-local function shift_items(pos, elapsed)
+local function shift_items(pos, elapsed)	-- Return true to keep the timer going
 	if tubelib.data_not_corrupted(pos) then
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -112,21 +112,32 @@ local function shift_items(pos, elapsed)
 				local stack = inv:get_stack("shift", idx)
 				local count = stack:get_count()
 				if count > 0 then
+					if configured(pos, stack) then
+						if tubelib.put_item(meta, "main", stack, tubelib.refill) then
+							inv:set_stack("shift", idx, ItemStack(""))
+							set_state(meta, "loaded")
+							aging(pos, meta)
+							break
+						else
+							if count ~= stack:get_count() then
+								inv:set_stack("shift", idx, stack)
+								aging(pos, meta)
+								break
+							end
+							set_state(meta, "full")
+						end
+					end
 					if tubelib.push_items(pos, "R", stack, player_name) then
-						-- The effort is needed here for the case the
-						-- pusher pushes into its own chest.
-						local num = stack:get_count()
-						stack = inv:get_stack("shift", idx)
-						stack:take_item(num)
-						inv:set_stack("shift", idx, stack)
+						inv:set_stack("shift", idx, ItemStack(""))
 						aging(pos, meta)
-						return true
+						break
 					else
-						-- Complete stack rejected
 						if count == stack:get_count() then
 							set_state(meta, "blocked")
 						else
 							inv:set_stack("shift", idx, stack)
+							aging(pos, meta)
+							break
 						end
 					end
 				end
@@ -352,20 +363,18 @@ tubelib.register_node("tubelib_addons3:pushing_chest",
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		if configured(pos, item) then
-			if tubelib.put_item(meta, "main", item) then
+			if tubelib.put_item(meta, "main", item, tubelib.refill) then
 				set_state(meta, "loaded")
 				return true
 			else
 				set_state(meta, "full")
-				return tubelib.put_item(meta, "shift", item, tubelib.refill)
 			end
-		else
-			return tubelib.put_item(meta, "shift", item, tubelib.refill)
 		end
+		return tubelib.put_item(meta, "shift", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item, tubelib)
+		return tubelib.put_item(meta, "main", item)
 	end,
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(2)

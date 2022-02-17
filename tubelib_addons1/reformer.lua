@@ -324,6 +324,7 @@ minetest.register_node("tubelib_addons1:reformer_top", {
 minetest.register_craftitem("tubelib_addons1:biofuel", {
 	description = S("Bio Fuel"),
 	inventory_image = "tubelib_addons1_biofuel.png",
+	stack_max = 999
 })
 
 minetest.register_craft({
