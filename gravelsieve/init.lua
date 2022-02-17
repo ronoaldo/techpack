@@ -649,8 +649,8 @@ if minetest.global_exists("tubelib") then
 		},
 		{
 		on_pull_stack = function(pos, side)
-			local meta = minetest.get_stack(pos)
-			return tubelib.get_item(meta, "dst")
+			local meta = minetest.get_meta(pos)
+			return tubelib.get_stack(meta, "dst")
 		end,
 		on_pull_item = function(pos, side)
 			local meta = minetest.get_meta(pos)
