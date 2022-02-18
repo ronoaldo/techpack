@@ -280,17 +280,27 @@ function techpack_warehouse.on_timer(self, pos, elapsed)
 				local idx = ((i + offs) % 8) + 1
 				local stack = inv:get_stack("shift", idx)
 				if stack:get_count() > 0 then
-					if tubelib.push_items(pos, push_dir, stack, player_name) then
-						-- The effort is needed here for the case the
-						-- pusher pushes into its own chest.
-						local num = stack:get_count()
-						stack = inv:get_stack("shift", idx)
-						stack:take_item(num)
-						inv:set_stack("shift", idx, stack)
-						self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
-						break
-					else
-						self.State:blocked(pos, meta)
+					local num = techpack_warehouse.inv_add_item(self, meta, stack)
+					stack:set_count(num)
+					inv:set_stack("shift", idx, stack)
+					if num > 0 then
+						local node = tubelib.Tube:get_node_lvm(pos)
+						local dir = tubelib2.side_to_dir(push_dir, node.param2)
+						local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
+						if dpos == pos then break end
+						if tubelib.push_items(pos, push_dir, stack, player_name) then
+							inv:set_stack("shift", idx, ItemStack(""))
+							self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
+							break
+						else
+							if num == stack:get_count() then
+								self.State:blocked(pos, meta)
+							else
+								inv:set_stack("shift", idx, stack)
+								self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
+								break
+							end
+						end
 					end
 				end
 			end

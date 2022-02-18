@@ -127,6 +127,11 @@ local function shift_items(pos, elapsed)	-- Return true to keep the timer going
 							set_state(meta, "full")
 						end
 					end
+					-- check if pushing to self
+					local node = tubelib.Tube:get_node_lvm(pos)
+					local dir = tubelib2.side_to_dir("R", node.param2)
+					local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
+					if dpos == pos then break end
 					if tubelib.push_items(pos, "R", stack, player_name) then
 						inv:set_stack("shift", idx, ItemStack(""))
 						aging(pos, meta)
