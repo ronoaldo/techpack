@@ -98,59 +98,52 @@ local function configured(pos, item)
 	return Cache[number][item:get_name()] == true
 end
 
-local function shift_items(pos, elapsed)	-- Return true to keep the timer going
-	if tubelib.data_not_corrupted(pos) then
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if not inv:is_empty("shift") then
-			local number = meta:get_string("number")
-			local player_name = meta:get_string("player_name")
-			local offs = meta:get_int("offs")
-			meta:set_int("offs", offs + 1)
-			for i = 0,7 do
-				local idx = ((i + offs) % 8) + 1
-				local stack = inv:get_stack("shift", idx)
-				local count = stack:get_count()
-				if count > 0 then
-					if configured(pos, stack) then
-						if tubelib.put_item(meta, "main", stack, tubelib.refill) then
-							inv:set_stack("shift", idx, ItemStack(""))
-							set_state(meta, "loaded")
-							aging(pos, meta)
-							break
-						else
-							if count ~= stack:get_count() then
-								inv:set_stack("shift", idx, stack)
-								aging(pos, meta)
-								break
-							end
-							set_state(meta, "full")
-						end
-					end
-					-- check if pushing to self
-					local node = tubelib.Tube:get_node_lvm(pos)
-					local dir = tubelib2.side_to_dir("R", node.param2)
-					local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
-					if dpos == pos then break end
-					if tubelib.push_items(pos, "R", stack, player_name) then
-						inv:set_stack("shift", idx, ItemStack(""))
+local function shift_items(pos, elapsed)
+	if tubelib.data_not_corrupted(pos) == false then return false end
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	if not inv:is_empty("shift") then
+		local number = meta:get_string("number")
+		local player_name = meta:get_string("player_name")
+		local offs = meta:get_int("offs")
+		meta:set_int("offs", offs + 1)
+		for i = 0,7 do
+			local idx = ((i + offs) % 8) + 1
+			local stack = inv:get_stack("shift", idx)
+			local count = stack:get_count()
+			if count > 0 then
+				-- Allow moving directly into chest similar to how warehouse chest works
+				if configured(pos, stack) and tubelib.put_item(meta, "main", stack) then
+					set_state(meta, "loaded")
+					inv:set_stack("shift", idx, ItemStack())
+					aging(pos, meta)
+					break
+				end
+				count = stack:get_count()
+				local result, selfloop = tubelib.push_items(pos, "R", stack, player_name)
+				if result then
+					inv:set_stack("shift", idx, ItemStack())
+					aging(pos, meta)
+					break
+				elseif selfloop then
+					inv:set_stack("shift", idx, ItemStack())
+					inv:add_item("shift", stack)
+					aging(pos, meta)
+					break
+				else
+					-- Complete stack rejected
+					if count == stack:get_count() then
+						set_state(meta, "blocked")
+					else
+						inv:set_stack("shift", idx, stack)
 						aging(pos, meta)
 						break
-					else
-						if count == stack:get_count() then
-							set_state(meta, "blocked")
-						else
-							inv:set_stack("shift", idx, stack)
-							aging(pos, meta)
-							break
-						end
 					end
 				end
 			end
 		end
-		return true
 	end
-	return false
+	return true
 end
 
 local function formspec()
@@ -368,14 +361,16 @@ tubelib.register_node("tubelib_addons3:pushing_chest",
 	on_push_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
 		if configured(pos, item) then
-			if tubelib.put_item(meta, "main", item, tubelib.refill) then
+			if tubelib.put_item(meta, "main", item) then
 				set_state(meta, "loaded")
 				return true
 			else
 				set_state(meta, "full")
+				return tubelib.put_item(meta, "shift", item, tubelib.refill)
 			end
+		else
+			return tubelib.put_item(meta, "shift", item, tubelib.refill)
 		end
-		return tubelib.put_item(meta, "shift", item, tubelib.refill)
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)

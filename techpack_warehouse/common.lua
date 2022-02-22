@@ -79,10 +79,7 @@ local function move_to_player_inv(player_name, pos, index)
 	local node_inv = M(pos):get_inventory()
 	local main_stack = node_inv:get_stack("main", index)
 	local player_inv = minetest.get_inventory({type="player", name=player_name})
-	local num = main_stack:get_count()
-	if num > 99 then
-		num = 99
-	end
+	local num = math.min(main_stack:get_count(), main_stack:get_stack_max())
 	local leftover = player_inv:add_item("main", ItemStack(main_stack:get_name().." "..num))
 	main_stack:set_count(main_stack:get_count() - num + leftover:get_count())
 	node_inv:set_stack("main", index, main_stack)
@@ -279,27 +276,25 @@ function techpack_warehouse.on_timer(self, pos, elapsed)
 			for i = 0,7 do
 				local idx = ((i + offs) % 8) + 1
 				local stack = inv:get_stack("shift", idx)
-				if stack:get_count() > 0 then
-					local num = techpack_warehouse.inv_add_item(self, meta, stack)
-					stack:set_count(num)
-					inv:set_stack("shift", idx, stack)
-					if num > 0 then
-						local node = tubelib.Tube:get_node_lvm(pos)
-						local dir = tubelib2.side_to_dir(push_dir, node.param2)
-						local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
-						if dpos == pos then break end
-						if tubelib.push_items(pos, push_dir, stack, player_name) then
-							inv:set_stack("shift", idx, ItemStack(""))
-							self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
-							break
+				local count = stack:get_count()
+				if count > 0 then
+					local leftover = techpack_warehouse.inv_add_item(self, meta, stack)
+					if leftover ~= count then
+						stack:set_count(leftover)
+					end
+					local result, selfloop = tubelib.push_items(pos, push_dir, stack, player_name)
+					if result then
+						inv:set_stack("shift", idx, ItemStack())
+						self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
+						break
+					elseif selfloop then
+						inv:set_stack("shift", idx, ItemStack())
+						inv:add_item("shift", stack)
+					else
+						if count == stack:get_count() then
+							self.State:blocked(pos, meta)
 						else
-							if num == stack:get_count() then
-								self.State:blocked(pos, meta)
-							else
-								inv:set_stack("shift", idx, stack)
-								self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
-								break
-							end
+							inv:set_stack("shift", idx, stack)
 						end
 					end
 				end

@@ -235,13 +235,9 @@ local function distributing(pos, meta)
 		local name = stack:get_name()
 		local num = stack:get_count()
 		local second_try = false
+		local add_stack
 		-- try configured output ports
 		for _, side in ipairs(kvFilterItemNames[name] or {}) do  -- configured
-			-- check if pushing to self
-			local node = tubelib.Tube:get_node_lvm(pos)
-			local dir = tubelib2.side_to_dir(side, node.param2)
-			local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
-			if dpos == pos then minetest.chat_send_all("Do not send to self!");break end
 			if tubelib.push_items(pos, side, stack, player_name) then
 				stack:set_count(0)
 				local color = Side2Color[side]
@@ -258,17 +254,12 @@ local function distributing(pos, meta)
 			end
 		end
 
+		num = stack:get_count()
 		-- try unconfigured open output ports
 		if not busy then
 			local side = random_list_elem(open_ports)
 			if side then
-			-- check if pushing to self
-				local node = tubelib.Tube:get_node_lvm(pos)
-				local dir = tubelib2.side_to_dir(side, node.param2)
-				local dpos = tubelib.Tube:get_connected_node_pos(pos, dir)
-				if dpos == pos then
-					minetest.chat_send_all("Do not send to self!")
-				elseif tubelib.push_items(pos, side, stack, player_name) then
+				if tubelib.push_items(pos, side, stack, player_name) then
 					stack:set_count(0)
 					local color = Side2Color[side]
 					counter[color] = counter[color] + num

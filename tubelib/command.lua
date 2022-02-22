@@ -426,16 +426,17 @@ end
 function tubelib.push_items(pos, side, items, player_name)
 	local npos, nside, name = get_dest_node(pos, side)
 	if npos == nil then return end
+	if npos.x == pos.x and npos.y == pos.y and npos.z == pos.z then return false, true end
 	if tubelib_NodeDef[name] and tubelib_NodeDef[name].on_push_item then
 		if Tube:is_valid_side(name, nside) == false then
-			return false
+			return false, false
 		end
 		return tubelib_NodeDef[name].on_push_item(npos, nside, items, player_name)
 	elseif name == "air" then
 		minetest.add_item(npos, items)
-		return true
+		return true, false
 	end
-	return false
+	return false, false
 end
 
 function tubelib.unpull_items(pos, side, items, player_name)
@@ -558,7 +559,9 @@ function tubelib.get_stack(meta, listname)
 	local item = tubelib.get_item(meta, listname)
 	if item and item:get_stack_max() > 1 and inv:contains_item(listname, item) then
 		-- try to remove a complete stack
-		item:set_count(math.min(98, item:get_stack_max() - 1))
+--		item:set_count(math.min(98, item:get_stack_max() - 1))
+		-- Why limit to 99 when we have things set to higher max stack?
+		item:set_count(item:get_stack_max() - 1)
 		local taken = inv:remove_item(listname, item)
 		-- add the already removed
 		taken:set_count(taken:get_count() + 1)

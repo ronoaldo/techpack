@@ -43,11 +43,12 @@ local function pushing(pos, meta)
 	local items = tubelib.pull_stack(pos, "L", player_name)
 	if items ~= nil then
 		local count = items:get_count()
-		if tubelib.push_items(pos, "R", items, player_name) == false then
+		local result, selfloop = tubelib.push_items(pos, "R", items, player_name)
+		if result == false then
 			-- place item back
 			tubelib.unpull_items(pos, "L", items, player_name)
 			-- Complete stack rejected
-			if count == items:get_count() then
+			if count == items:get_count() and not selfloop then
 				State:blocked(pos, meta)
 				return
 			end

@@ -327,6 +327,7 @@ minetest.register_node("tubelib_addons1:fermenter_top", {
 minetest.register_craftitem("tubelib_addons1:biogas", {
 	description = S("Bio Gas"),
 	inventory_image = "tubelib_addons1_biogas.png",
+	stack_max = 9999
 })
 
 if minetest.global_exists("unified_inventory") then
