@@ -122,6 +122,12 @@ local function shift_items(pos, elapsed)
 				count = stack:get_count()
 				local result, selfloop = tubelib.push_items(pos, "R", stack, player_name)
 				if result then
+					-- The effort is needed here for the case the
+					-- pusher pushes into its own chest.
+					--local num = stack:get_count()
+					--stack = inv:get_stack("shift", idx)
+					--stack:take_item(num)
+					--stack:set_count(count - stack:get_count())
 					inv:set_stack("shift", idx, ItemStack())
 					aging(pos, meta)
 					break
@@ -374,7 +380,7 @@ tubelib.register_node("tubelib_addons3:pushing_chest",
 	end,
 	on_unpull_item = function(pos, side, item)
 		local meta = minetest.get_meta(pos)
-		return tubelib.put_item(meta, "main", item)
+		return tubelib.put_item(meta, "main", item, tubelib)
 	end,
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(2)

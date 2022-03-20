@@ -80,6 +80,9 @@ local function move_to_player_inv(player_name, pos, index)
 	local main_stack = node_inv:get_stack("main", index)
 	local player_inv = minetest.get_inventory({type="player", name=player_name})
 	local num = math.min(main_stack:get_count(), main_stack:get_stack_max())
+--[[	if num > 99 then
+		num = 99
+	end]]--
 	local leftover = player_inv:add_item("main", ItemStack(main_stack:get_name().." "..num))
 	main_stack:set_count(main_stack:get_count() - num + leftover:get_count())
 	node_inv:set_stack("main", index, main_stack)
@@ -284,6 +287,11 @@ function techpack_warehouse.on_timer(self, pos, elapsed)
 					end
 					local result, selfloop = tubelib.push_items(pos, push_dir, stack, player_name)
 					if result then
+						--[[ The effort is needed here for the case the
+						-- pusher pushes into its own chest.
+						local num = stack:get_count()
+						stack = inv:get_stack("shift", idx)
+						stack:take_item(num)]]--
 						inv:set_stack("shift", idx, ItemStack())
 						self.State:keep_running(pos, meta, COUNTDOWN_TICKS)
 						break
