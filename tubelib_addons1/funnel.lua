@@ -125,6 +125,7 @@ minetest.register_node("tubelib_addons1:funnel", {
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+	on_blast = function() end,
 })
 
 
@@ -162,5 +163,4 @@ tubelib.register_node("tubelib_addons1:funnel", {}, {
 	end,
 
 })
-
 

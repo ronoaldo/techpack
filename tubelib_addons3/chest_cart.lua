@@ -89,7 +89,7 @@ minetest.register_node("tubelib_addons3:chest_cart", {
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	on_rightclick = on_rightclick,
-
+	on_blast = function() end,
 	after_place_node = function(pos, placer)
 		local inv = M(pos):get_inventory()
 		inv:set_size('main', 4)
