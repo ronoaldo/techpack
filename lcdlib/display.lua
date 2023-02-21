@@ -123,7 +123,7 @@ local function place_entities(pos)
 				y = pos.y + height,
 				z = pos.z - values.dz * depth + values.rz * right})
 
-			objrefs[entity_name]:setyaw(values.yaw)
+			objrefs[entity_name]:set_yaw(values.yaw)
 		end
 	end
 	return objrefs
